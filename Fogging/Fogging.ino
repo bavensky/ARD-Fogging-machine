@@ -54,12 +54,12 @@
 #include <Keypad.h>
 #include <EEPROM.h>
 
-#define addrH  1
-#define addrM  2
-#define addrT  3
-#define addrS  4
-byte addrHour, addrMinute, addrTemp, addrSoil;
-
+#define addrH  11
+#define addrM  22
+#define addrT  33
+#define addrS  44
+int addrHour, addrMinute, addrTemp, addrSoil;
+byte setHour, setMinute;
 
 const byte ROWS = 4;    // four rows
 const byte COLS = 3;    // three columns
@@ -77,7 +77,7 @@ Keypad customKeypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 #define DHTPIN  2
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
-float t, h;
+int t, h;
 
 
 RTC_DS1307 rtc;
@@ -96,8 +96,13 @@ byte soilValue = 0;
 #define SOLENOID  13
 
 
-int mode = 0;
-
+boolean timeDone = false;
+boolean tempDone = false;
+boolean soilDone = false;
+boolean pressState = false;
+byte countPass = 0;
+int mode, numKey, numKey1, numKey2, numKey3, numKey4;
+int colLCD = 10;
 
 void readDHT() {
   t = dht.readTemperature();;
@@ -110,24 +115,19 @@ void readTime() {
   _hour   = now.hour();
   _min    = now.minute();
   _sec    = now.second();
-  _day    = now.month();
+  _day    = now.day();
   _month  = now.month();
   _year   = now.year();
 }
 
 void setting() {
-
+  lcd.setCursor(0, 0);
+  lcd.print("setting mode :  ");
+  lcd.setCursor(0, 1);
+  lcd.print(" Fogging Machine");
+  Serial.println("setting");
+  if (customKeypad.getKey() == '#') mode = 0;
 }
-void mode1() {
-
-}
-void mode2() {
-
-}
-void mode3() {
-
-}
-
 
 void setup() {
   Serial.begin(9600);
@@ -146,15 +146,22 @@ void setup() {
   //  EEPROM.write(addrM, 2);
   //  EEPROM.write(addrT, 3);
   //  EEPROM.write(addrS, 4);
-  addrHour    = EEPROM.read(addrH);
-  addrMinute  = EEPROM.read(addrM);
-  addrTemp    = EEPROM.read(addrT);
-  addrSoil    = EEPROM.read(addrS);
+  //  addrHour    = EEPROM.read(addrH);
+  //  addrMinute  = EEPROM.read(addrM);
+  //  addrTemp    = EEPROM.read(addrT);
+  //  addrSoil    = EEPROM.read(addrS);
 
-  Serial.print(addrHour);
-  Serial.print(addrMinute);
-  Serial.print(addrTemp);
-  Serial.println(addrSoil);
+  //  Serial.print(addrHour);
+  //  Serial.print(addrMinute);
+  //  Serial.print(addrTemp);
+  //  Serial.println(addrSoil);
+
+  lcd.setCursor(0, 0);
+  lcd.print("    WELCOME     ");
+  lcd.setCursor(0, 1);
+  lcd.print("Fogging Machine ");
+  delay(200);
+  Serial.println("Done...");
 }
 
 void loop() {
@@ -163,13 +170,12 @@ void loop() {
   soilValue = map(analogRead(SOIL), 1023, 100, 0, 100);
 
 
-  char customKey = customKeypad.getKey();
-  Serial.println(customKey);
-  if (customKey == '1') {
-    digitalWrite(SOLENOID, !digitalRead(SOLENOID));
-  }
+  digitalWrite(SOLENOID, LOW);
 
   lcd.setCursor(0, 0);
+  lcd.print("Fogging Machine ");
+
+  lcd.setCursor(0, 1);
   if (_day <= 9) lcd.print("0");
   lcd.print(_day);
   lcd.print("/");
@@ -183,14 +189,66 @@ void loop() {
   lcd.print(":");
   if (_min <= 9) lcd.print("0");
   lcd.print(_min);
-  lcd.print("s. ");
+  if (_hour <= 12) lcd.print("am ");
+  else lcd.print("pm ");
+  delay(50);
 
 
-  lcd.setCursor(0, 1);
-  lcd.print("T:");
-  lcd.print(t);
-  lcd.print(" H:");
-  lcd.print(h);
-  lcd.print("   ");
-  delay(100);
+  char customKey = customKeypad.getKey();
+  if (customKey == '1') {
+    lcd.clear();
+
+    numKey1 = 0;
+    numKey2 = 0;
+    numKey3 = 0;
+    numKey4 = 0;
+
+    addrHour = EEPROM.read(addrH);
+    addrMinute = EEPROM.read(addrM);
+
+    mode = 1;
+    delay(200);
+  }
+  if (customKey == '2') {
+    lcd.clear();
+
+    numKey1 = 0;
+    numKey2 = 0;
+    numKey3 = 0;
+    numKey4 = 0;
+
+
+    addrTemp = EEPROM.read(addrT);
+
+    mode = 2;
+    delay(200);
+  }
+  if (customKey == '3') {
+    lcd.clear();
+
+    numKey1 = 0;
+    numKey2 = 0;
+    numKey3 = 0;
+    numKey4 = 0;
+
+
+    addrSoil = EEPROM.read(addrS);
+
+    mode = 3;
+    delay(200);
+  }
+
+
+  while (mode == 1) {
+    mode1();
+  }
+  while (mode == 2) {
+    mode2();
+  }
+  while (mode == 3) {
+    mode3();
+  }
+  while (mode == 4) {
+    setting();
+  }
 }
