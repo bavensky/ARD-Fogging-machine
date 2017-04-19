@@ -93,7 +93,7 @@ LiquidCrystal_I2C lcd(0x3f, 16, 2);
 byte soilValue = 0;
 
 
-#define SOLENOID  13
+#define SOLENOID  12
 
 
 boolean timeDone = false;
@@ -139,7 +139,7 @@ void setup() {
   lcd.begin();
 
   rtc.begin();
-  //  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+//  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
 
   //  EEPROM.write(addrH, 1);
@@ -170,7 +170,7 @@ void loop() {
   soilValue = map(analogRead(SOIL), 1023, 100, 0, 100);
 
 
-  digitalWrite(SOLENOID, LOW);
+  digitalWrite(SOLENOID, HIGH);
 
   lcd.setCursor(0, 0);
   lcd.print("Fogging Machine ");

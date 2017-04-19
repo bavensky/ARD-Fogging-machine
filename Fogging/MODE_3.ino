@@ -120,10 +120,10 @@ void mode3() {
     lcd.print(addrSoil);
     lcd.print("%   ");
 
-    if (addrSoil == soilValue) {
-      digitalWrite(SOLENOID, HIGH);
-    } else {
+    if (addrSoil <= soilValue) {
       digitalWrite(SOLENOID, LOW);
+    } else {
+      digitalWrite(SOLENOID, HIGH);
     }
 
     char inChar = customKeypad.getKey();

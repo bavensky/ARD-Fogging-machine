@@ -77,10 +77,10 @@ void mode2() {
     lcd.print(addrTemp);
     lcd.print("*C   ");
 
-    if (addrTemp == t) {
-      digitalWrite(SOLENOID, HIGH);
-    } else {
+    if (t >= addrTemp) {
       digitalWrite(SOLENOID, LOW);
+    } else {
+      digitalWrite(SOLENOID, HIGH);
     }
 
     char inChar = customKeypad.getKey();

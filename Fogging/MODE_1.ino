@@ -180,9 +180,9 @@ void mode1() {
 
     // update time
     if (setHour == _hour && setMinute == _min) {
-      digitalWrite(SOLENOID, HIGH);
-      delay(1000);
       digitalWrite(SOLENOID, LOW);
+      delay(5000);
+      digitalWrite(SOLENOID, HIGH);
 
       setHour = _hour + addrHour;
       setMinute = _min + addrMinute;
