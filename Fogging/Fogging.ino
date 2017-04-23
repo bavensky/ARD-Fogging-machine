@@ -3,7 +3,7 @@
    [RMUTL Senior Project]
    Hardware : Arduino UNO, LCD, Relay, Keypad, DHT, Soil moisture, RTC
    Author   : Arduino Siam (bavensky)
-   Date     : 11/04/2017
+   Date     : 24/04/2017
 
         --Pin out--
     Module        Arduino
@@ -44,7 +44,6 @@
     GND           GND
 
 */
-
 
 
 #include <Wire.h>
@@ -146,13 +145,11 @@ void setup() {
   rtc.begin();
 //  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
-
-  
   lcd.setCursor(0, 0);
   lcd.print("    WELCOME     ");
   lcd.setCursor(0, 1);
   lcd.print("Fogging Machine ");
-  delay(200);
+  delay(2000);
   Serial.println("Done...");
 }
 

@@ -125,16 +125,6 @@ void mode1() {
       setHour = setHour - 24;
     }
 
-    //    Serial.print("Sent1 ");
-    //    Serial.print(_hour);
-    //    Serial.print(":");
-    //    Serial.print(_min);
-    //    Serial.print("   ");
-    //    Serial.print(setHour);
-    //    Serial.print(":");
-    //    Serial.println(setMinute);
-    //    delay(3000);
-
     countPass = 0;
     curSorcount1 = 9;
     timeDone = true;
@@ -143,7 +133,6 @@ void mode1() {
     numKey2 = 0;
     numKey3 = 0;
     numKey4 = 0;
-    //    addrHour = EEPROM.read(addrH) // read set time stop fogging
   }
 
   if (inChar == '#') {
@@ -161,16 +150,6 @@ void mode1() {
       setHour = setHour - 24;
     }
 
-    //    Serial.print("Sent2 ");
-    //    Serial.print(_hour);
-    //    Serial.print(":");
-    //    Serial.print(_min);
-    //    Serial.print("   ");
-    //    Serial.print(setHour);
-    //    Serial.print(":");
-    //    Serial.println(setMinute);
-    //    delay(3000);
-
     countPass = 0;
     curSorcount1 = 9;
     timeDone = true;
@@ -179,7 +158,6 @@ void mode1() {
     numKey2 = 0;
     numKey3 = 0;
     numKey4 = 0;
-    //    addrHour = EEPROM.read(addrH) // read set time stop fogging
   }
 
 
@@ -338,21 +316,6 @@ void mode1() {
         lcd.print("m  ");
         digitalWrite(SOLENOID, LOW);
       }
-
-      //      setHour = _hour + addrHour;
-      //      setMinute = _min + addrMinute;
-      //      stopCount = setMinute + stopCount;
-      //
-      //      if (stopCount > 59) {
-      //        stopCount = stopCount - 59;
-      //      }
-      //      if (setMinute > 59) {
-      //        setHour += 1;
-      //        setMinute = setMinute - 59;
-      //      }
-      //      if (setHour > 23) {
-      //        setHour = setHour - 23;
-      //      }
 
       digitalWrite(SOLENOID, HIGH);
       timeDone = false;
