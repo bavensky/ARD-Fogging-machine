@@ -58,6 +58,7 @@
 #define addrM  22
 #define addrT  33
 #define addrS  44
+#define addrStop  55
 int addrHour, addrMinute, addrTemp, addrSoil;
 byte setHour, setMinute;
 
@@ -95,14 +96,18 @@ byte soilValue = 0;
 
 #define SOLENOID  12
 
-
+boolean activeTime = false;
 boolean timeDone = false;
 boolean tempDone = false;
 boolean soilDone = false;
 boolean pressState = false;
 byte countPass = 0;
+int stopCount = 0;
 int mode, numKey, numKey1, numKey2, numKey3, numKey4;
 int colLCD = 10;
+int curSorcount1 = 9;
+int curSorcount2 = 9;
+
 
 void readDHT() {
   t = dht.readTemperature();;
@@ -111,7 +116,7 @@ void readDHT() {
 
 void readTime() {
   DateTime now = rtc.now();
-  //  daysOfTheWeek[now.dayOfTheWeek()]
+//    daysOfTheWeek[now.dayOfTheWeek()]
   _hour   = now.hour();
   _min    = now.minute();
   _sec    = now.second();
@@ -142,20 +147,7 @@ void setup() {
 //  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
 
-  //  EEPROM.write(addrH, 1);
-  //  EEPROM.write(addrM, 2);
-  //  EEPROM.write(addrT, 3);
-  //  EEPROM.write(addrS, 4);
-  //  addrHour    = EEPROM.read(addrH);
-  //  addrMinute  = EEPROM.read(addrM);
-  //  addrTemp    = EEPROM.read(addrT);
-  //  addrSoil    = EEPROM.read(addrS);
-
-  //  Serial.print(addrHour);
-  //  Serial.print(addrMinute);
-  //  Serial.print(addrTemp);
-  //  Serial.println(addrSoil);
-
+  
   lcd.setCursor(0, 0);
   lcd.print("    WELCOME     ");
   lcd.setCursor(0, 1);
