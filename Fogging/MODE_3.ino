@@ -35,7 +35,7 @@ void mode3() {
       addrSoil = numKey3;
     }
     countPass += 1;
-    
+
     Serial.println(addrSoil);
     if (addrSoil > 100) {
       lcd.clear();
@@ -54,7 +54,8 @@ void mode3() {
     }
   }
 
-  soilValue = map(analogRead(SOIL), 1023, 100, 0, 100);
+  soilValue = map(analogRead(SOIL), 1023, 0, 0, 100);
+
   lcd.setCursor(0, 0);
   lcd.print("Mode3  Set Soil ");
   lcd.setCursor(0, 1);
@@ -99,8 +100,8 @@ void mode3() {
   }
 
   while (soilDone == true) {
-    soilValue = map(analogRead(SOIL), 1023, 100, 0, 100);
-
+    soilValue = map(analogRead(SOIL), 1023, 0, 0, 100);
+    Serial.println(soilValue);
     lcd.setCursor(0, 0);
     lcd.print("Mode3  soil=");
     if (soilValue <= 9) {
@@ -121,9 +122,9 @@ void mode3() {
     lcd.print("%   ");
 
     if (addrSoil <= soilValue) {
-      digitalWrite(SOLENOID, LOW);
-    } else {
       digitalWrite(SOLENOID, HIGH);
+    } else {
+      digitalWrite(SOLENOID, LOW);
     }
 
     char inChar = customKeypad.getKey();

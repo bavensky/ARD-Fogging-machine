@@ -315,14 +315,26 @@ void mode1() {
         lcd.print(stopCount);
         lcd.print("m  ");
         digitalWrite(SOLENOID, LOW);
-      }
 
+        char inChar = customKeypad.getKey();
+        if (inChar == '*') {
+          lcd.clear();
+          numKey1 = 0;
+          numKey2 = 0;
+          numKey3 = 0;
+          numKey4 = 0;
+
+          countPass = 0;
+          timeDone = false;
+          activeTime = false;
+          mode = 0;
+        }
+      }
       digitalWrite(SOLENOID, HIGH);
       timeDone = false;
       activeTime = false;
       mode = 0;
     }
-
 
     char inChar = customKeypad.getKey();
     if (inChar == '*') {
@@ -337,5 +349,6 @@ void mode1() {
       activeTime = false;
       mode = 0;
     }
+
   }
 }

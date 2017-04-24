@@ -61,7 +61,7 @@
 int addrHour, addrMinute, addrTemp, addrSoil;
 byte setHour, setMinute;
 
-const byte ROWS = 4;    // four rows
+const byte ROWS = 4;    // four rows9
 const byte COLS = 3;    // three columns
 char keys[ROWS][COLS] = {
   {'1', '2', '3'},
@@ -150,7 +150,6 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Fogging Machine ");
   delay(2000);
-  Serial.println("Done...");
 }
 
 void loop() {
@@ -198,6 +197,7 @@ void loop() {
     mode = 1;
     delay(200);
   }
+  
   if (customKey == '2') {
     lcd.clear();
 
@@ -240,4 +240,6 @@ void loop() {
   while (mode == 4) {
     setting();
   }
+
+  
 }
