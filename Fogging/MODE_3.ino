@@ -14,6 +14,7 @@ void mode3() {
       case '9': numKey = 9; break;
       case '0': numKey = 0; break;
     }
+    curSorcount3 += 1;
     countPass += 1;
   }
 
@@ -45,6 +46,7 @@ void mode3() {
       lcd.print("Set SOIL = FALSE");
       delay(2000);
       countPass = 0;
+      curSorcount3 = 11;
       numKey1 = 0;
       numKey2 = 0;
       numKey3 = 0;
@@ -72,6 +74,11 @@ void mode3() {
     lcd.print(numKey2);
     lcd.print(numKey3);
     lcd.print("%  ");
+    lcd.setCursor(curSorcount3, 1);
+    lcd.noCursor();
+    delay(50);
+    lcd.cursor();
+    delay(50);
   } else {
     lcd.print("Set SOIL = ");
     lcd.print(addrSoil);
@@ -82,6 +89,7 @@ void mode3() {
     lcd.clear();
     countPass = 0;
     soilDone = false;
+    curSorcount3 = 11;
     mode = 0;
   }
 
@@ -89,6 +97,7 @@ void mode3() {
     lcd.clear();
     addrSoil = EEPROM.read(addrS);
     countPass = 0;
+    curSorcount3 = 11;
     soilDone = true;
   }
 
@@ -96,6 +105,7 @@ void mode3() {
     lcd.clear();
     EEPROM.write(addrS, addrSoil);
     countPass = 0;
+    curSorcount3 = 11;
     soilDone = true;
   }
 
@@ -131,6 +141,7 @@ void mode3() {
     if (inChar == '*') {
       lcd.clear();
       soilDone = false;
+      curSorcount3 = 11;
       mode = 0;
     }
   }

@@ -14,6 +14,8 @@ void mode2() {
       case '9': numKey = 9; break;
       case '0': numKey = 0; break;
     }
+
+    curSorcount2 += 1;
     countPass += 1;
   }
 
@@ -38,6 +40,11 @@ void mode2() {
     lcd.print(numKey1);
     lcd.print(numKey2);
     lcd.print("*C ");
+    lcd.setCursor(curSorcount2, 1);
+    lcd.noCursor();
+    delay(50);
+    lcd.cursor();
+    delay(50);
   } else {
     lcd.print("Set TEMP = ");
     lcd.print(addrTemp);
@@ -47,6 +54,7 @@ void mode2() {
   if (inChar == '*') {
     lcd.clear();
     countPass = 0;
+    curSorcount2 = 11;
     timeDone = false;
     mode = 0;
   }
@@ -87,6 +95,7 @@ void mode2() {
     if (inChar == '*') {
       lcd.clear();
       tempDone = false;
+      curSorcount2 = 11;
       mode = 0;
     }
   }

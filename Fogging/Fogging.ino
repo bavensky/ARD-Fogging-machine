@@ -105,7 +105,8 @@ int stopCount = 0;
 int mode, numKey, numKey1, numKey2, numKey3, numKey4;
 int colLCD = 10;
 int curSorcount1 = 9;
-int curSorcount2 = 9;
+int curSorcount2 = 11;
+int curSorcount3 = 11;
 
 
 void readDHT() {
@@ -115,7 +116,6 @@ void readDHT() {
 
 void readTime() {
   DateTime now = rtc.now();
-//    daysOfTheWeek[now.dayOfTheWeek()]
   _hour   = now.hour();
   _min    = now.minute();
   _sec    = now.second();
