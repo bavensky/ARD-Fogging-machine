@@ -292,8 +292,8 @@ void mode1() {
       EEPROM.write(addrSM, addrMinute_S);
 
       readTime();
-      stopHour = _hour + addrHour_S;
-      stopMinute = _min + addrMinute_S;
+      stopHour = setHour + addrHour_S;
+      stopMinute = setMinute + addrMinute_S;
 
       if (stopMinute > 59) {
         stopHour += 1;
@@ -318,8 +318,8 @@ void mode1() {
       addrHour_S = EEPROM.read(addrSH);
       addrMinute_S = EEPROM.read(addrSM);
       readTime();
-      stopHour = _hour + addrHour;
-      stopMinute = _min + addrMinute;
+      stopHour = setHour + addrHour_S;
+      stopMinute = setMinute + addrMinute_S;
 
       if (stopMinute > 59) {
         stopHour += 1;
@@ -377,9 +377,9 @@ void mode1() {
 
     // stop time
     if (setHour == _hour && setMinute == _min) {
-
-      readTime();
-      while (stopHour != _hour && stopMinute != _min) {
+      boolean state = true;
+      while (state == true) {
+        Serial.println("stopTime");
         digitalWrite(SOLENOID, LOW);
 
         readTime();
@@ -401,6 +401,10 @@ void mode1() {
         lcd.print(stopMinute);
         lcd.print("m  ");
 
+        if (stopHour == _hour && stopMinute == _min) {
+          digitalWrite(SOLENOID, HIGH);
+          state = false;
+        }
 
         char inChar = customKeypad.getKey();
         if (inChar == '*') {
@@ -411,6 +415,7 @@ void mode1() {
           numKey3 = 0;
           numKey4 = 0;
           lcd.clear();
+          state = false;
           activeTime = false;
           timeDone = false;
           mode = 0;
@@ -432,8 +437,8 @@ void mode1() {
 
       addrHour_S = EEPROM.read(addrSH);
       addrMinute_S = EEPROM.read(addrSM);
-      stopHour = _hour + addrHour;
-      stopMinute = _min + addrMinute;
+      stopHour = setHour + addrHour_S;
+      stopMinute = setMinute + addrMinute_S;
 
       if (stopMinute > 59) {
         stopHour += 1;
@@ -442,6 +447,7 @@ void mode1() {
       if (stopHour > 23) {
         stopHour = stopHour - 24;
       }
+      Serial.println("END");
     }
 
     char inChar = customKeypad.getKey();
