@@ -312,6 +312,7 @@ void mode1() {
       numKey2 = 0;
       numKey3 = 0;
       numKey4 = 0;
+      goto start;
     }
 
     if (inChar == '#') {
@@ -338,6 +339,7 @@ void mode1() {
       numKey2 = 0;
       numKey3 = 0;
       numKey4 = 0;
+      goto start;
     }
 
   }
@@ -366,7 +368,8 @@ void mode1() {
 
 
     lcd.setCursor(0, 1);
-    lcd.print("Active--> ");
+    //    lcd.print("Active--> ");
+    lcd.print("Start --> ");
     if (setHour <= 9 ) lcd.print("0");
     lcd.print(setHour);
     lcd.print(":");
@@ -377,6 +380,7 @@ void mode1() {
 
     // stop time
     if (setHour == _hour && setMinute == _min) {
+start:
       boolean state = true;
       while (state == true) {
         Serial.println("stopTime");
