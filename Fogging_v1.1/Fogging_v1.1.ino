@@ -93,10 +93,12 @@ LiquidCrystal_I2C lcd(0x3f, 16, 2);
 
 #define SOIL  A1
 byte soilValue = 0;
+byte pev_soilValue = 0;
 
 
 #define SOLENOID  12
 
+boolean activeSoil = false;
 boolean activeTime = false;
 boolean timeDone = false;
 boolean tempDone = false;

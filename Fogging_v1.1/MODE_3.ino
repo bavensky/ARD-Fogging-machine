@@ -38,7 +38,7 @@ void mode3() {
     countPass += 1;
 
     Serial.println(addrSoil);
-    if (addrSoil > 100) {
+    if (addrSoil <= 10 || addrSoil > 100) {
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Mode3  Set Soil ");
@@ -99,6 +99,7 @@ void mode3() {
     countPass = 0;
     curSorcount3 = 11;
     soilDone = true;
+    pev_soilValue = addrSoil - 10;;
   }
 
   if (inChar == '#' || countPass == 5) {
@@ -107,6 +108,7 @@ void mode3() {
     countPass = 0;
     curSorcount3 = 11;
     soilDone = true;
+    pev_soilValue = addrSoil - 10;
   }
 
   while (soilDone == true) {
@@ -131,40 +133,41 @@ void mode3() {
     lcd.print(addrSoil);
     lcd.print("%   ");
 
-    if (addrSoil <= soilValue) {
-//      digitalWrite(SOLENOID, HIGH);
-
-      int count = 0;
-      unsigned long previousMillis = 0;
-      while (count <= 120) {
-        lcd.setCursor(0, 0);
-        lcd.print("Mode3  Waiting..");
-        lcd.setCursor(0, 1);
-        lcd.print("   Fogging ON   ");
-
-        digitalWrite(SOLENOID, HIGH);
-
-        unsigned long currentMillis = millis();
-        if (currentMillis - previousMillis >= 1000) {
-          previousMillis = currentMillis;
-          count += 1;
-        }
-
-        char inChar = customKeypad.getKey();
-        if (inChar == '*') {
-          count = 160;
-          lcd.clear();
-          soilDone = false;
-          curSorcount3 = 11;
-          mode = 0;
-        }
-      }
-
-
-      lcd.clear();
+    if (soilValue <= pev_soilValue ) {
+      activeSoil = true;
+      Serial.println("activeSoil = true");
     }
 
-    digitalWrite(SOLENOID, LOW);
+    while (activeSoil == true) {
+      soilValue = map(analogRead(SOIL), 1023, 0, 0, 100);
+      digitalWrite(SOLENOID, HIGH);
+      lcd.setCursor(0, 0);
+      lcd.print("Mode3 soil =");
+      if (soilValue <= 9) {
+        lcd.print("00");
+      } else if (soilValue >= 10 && soilValue <= 99) {
+        lcd.print("0");
+      }
+      lcd.print(soilValue);
+      lcd.print("%  ");
+
+      lcd.setCursor(0, 1);
+      lcd.print("   Fogging ON   ");
+
+      if (soilValue >= addrSoil) {
+        activeSoil = false;
+        digitalWrite(SOLENOID, LOW);
+      }
+
+      char inChar = customKeypad.getKey();
+      if (inChar == '*') {
+        lcd.clear();
+        activeSoil = false;
+        soilDone = false;
+        curSorcount3 = 11;
+        mode = 0;
+      }
+    }
 
     char inChar = customKeypad.getKey();
     if (inChar == '*') {
