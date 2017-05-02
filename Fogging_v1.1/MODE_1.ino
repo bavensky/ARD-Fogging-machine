@@ -456,6 +456,7 @@ start:
 
     char inChar = customKeypad.getKey();
     if (inChar == '*') {
+      digitalWrite(SOLENOID, HIGH);
       countPass = 0;
       curSorcount1 = 9;
       numKey1 = 0;
